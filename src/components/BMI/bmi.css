@@ -1,0 +1,43 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ 
+
+.btn{
+    display: block;
+    width:100% ;
+    font-size: 1.2rem;
+    margin: 8px 0;
+    padding: 10px 0;
+    background-color: #333;
+    color: #fff;
+    border: ipx solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn_outline{
+    background-color: #e7dcdc;
+    color: #333;
+}
+.bmi_center{
+    text-align: center;
+    margin: 24px 0;
+}
+p{
+    margin: 10px 0;
+}
+
+.imag_container img{
+    height: 100px;
+}
+.error{
+    color: red;
+}
+.success{
+    color: green;
+}
+
+
