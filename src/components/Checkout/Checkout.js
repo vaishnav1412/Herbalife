@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { hideLoading, showLoading } from '../../redux/alertsSlice';
-import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
-import { loadScript } from "https://checkout.razorpay.com/v1/checkout.js";
+import { hideLoading, showLoading } from "../../redux/alertsSlice";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState("");
@@ -15,33 +14,24 @@ const Checkout = () => {
   const [order, setOrder] = useState("");
   const [addresses, setAddresses] = useState([]);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const id = cart?.userId;
 
   const fetchUserDetails = async () => {
     try {
-      dispatch(showLoading())
-      const response = await axios.post(
-        "/api/user/fetchcartdetails",
-        {},
-        {
-          headers: {
-            Authorisation: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      dispatch(hideLoading())
+      dispatch(showLoading());
+      const response = await instance.post("/api/user/fetchcartdetails");
+      dispatch(hideLoading());
       if (response.data.success) {
         setList(response.data.data.products);
         setCart(response.data.data);
         setTotalPrice(response.data.total);
         setAddresses(response.data.address);
-       
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      dispatch(hideLoading())
+      dispatch(hideLoading());
       console.error("Error fetching user details", error);
     }
   };
@@ -56,7 +46,6 @@ const Checkout = () => {
         id,
       };
 
-
       Swal.fire({
         title: "Are you sure?",
         text: "you want to delete this address?",
@@ -69,20 +58,22 @@ const Checkout = () => {
         customClass: "swal-delete-address",
       }).then(async (result) => {
         if (result.isConfirmed) {
-      if (addressId && id) {
-        const response = await axios.post("/api/user/deleteaddress", formData);
+          if (addressId && id) {
+            const response = await instance.post(
+              "/api/user/deleteaddress",
+              formData
+            );
 
-        if (response.data.success) {
-          fetchUserDetails()
-          
-        } else {
-          toast.error(response.data.message);
+            if (response.data.success) {
+              fetchUserDetails();
+            } else {
+              toast.error(response.data.message);
+            }
+          } else {
+            toast.error("something went wrong...");
+          }
         }
-      
-      } else {
-        toast.error("something went wrong...");
-      }
-    }})
+      });
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +97,7 @@ const Checkout = () => {
       id,
     };
     try {
-      const response = await axios.post("/api/user/productpurchase", formData);
+      const response = await instance.post("/api/user/productpurchase", formData);
       if (response.data.success) {
         toast.success(response.data.message);
 
@@ -127,7 +118,7 @@ const Checkout = () => {
       id,
     };
     try {
-      const response = await axios.post(
+      const response = await instance.post(
         "/api/user/verifyproductpayment",
         formData
       );

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import admininstance from "../../Axios/adminAxiosConfig";
 
 const OrderedProductDetailview = () => {
   const { id } = useParams();
@@ -12,12 +13,18 @@ const OrderedProductDetailview = () => {
       const formData = {
         id,
       };
-      const response = await axios.post('/api/admin/fetchsingleorder', formData);
-      if (response.data.success) {
-        setProducts(response.data.data[0].products);
-      } else {
-        toast.error('Something went wrong...');
-      }
+      admininstance
+        .post("/api/admin/fetchsingleorder", formData)
+        .then((response) => {
+          if (response.data.success) {
+            setProducts(response.data.data[0].products);
+          } else {
+            toast.error("Something went wrong...");
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
     } catch (error) {
       console.error(error);
     }
@@ -26,7 +33,7 @@ const OrderedProductDetailview = () => {
   useEffect(() => {
     getData(id);
   }, [id]);
-console.log(products);
+  console.log(products);
   return (
     <div className="p-4">
       <div className="col-span-1 bg-gray-500 lg:block hidden">
@@ -39,7 +46,7 @@ console.log(products);
             <li key={index} className="grid grid-cols-6 gap-2 border-b-1">
               <div className="col-span-1 self-center">
                 <img
-                   src={`http://localhost:5000/upload/${product?.image}`}
+                  src={`http://localhost:5000/upload/${product?.image}`}
                   alt={product?.name} // Set the alt text
                   className="rounded w-14 h-14"
                 />
@@ -66,7 +73,12 @@ console.log(products);
           <div className="flex justify-between py-4 text-white">
             <span>Subtotal</span>
             <span className="font-semibold text-yellow-300">
-              ₹{products.reduce((total, product) => total + product.count * product.productPrice, 0)}
+              ₹
+              {products.reduce(
+                (total, product) =>
+                  total + product.count * product.productPrice,
+                0
+              )}
             </span>
           </div>
           <div className="flex justify-between py-4  text-white">

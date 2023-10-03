@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import admininstance from "../../Axios/adminAxiosConfig";
 
 const Addproducts = () => {
 
@@ -95,24 +96,27 @@ const Addproducts = () => {
       formData.append("catogory", catogory);
 
       try {
-        const response=await axios.post('/api/admin/addproducts',formData, {
+        admininstance
+        .post('/api/admin/addproducts',formData, {
           headers:{
             'Content-Type': 'multipart/form-data',
           }
       })
-        if (response.data.success) {
-          toast.success(response.data.message);
-          
-          navigate("/dashboard/products");
-        } else {
-          toast.error(response.data.message);
-        }
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message);
+            navigate("/dashboard/products");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
       }
-    
     }
-
   }
 
   console.log(description);

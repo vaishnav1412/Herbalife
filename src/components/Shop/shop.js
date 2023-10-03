@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { HiShoppingCart } from "react-icons/hi";
@@ -10,17 +10,27 @@ const Shops = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState("");
-  const [search, setSerch] = useState("");
+  const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 8;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+
   const filteredProduct = products.filter((product) => {
-    const LowerCaseSearchInput = search.toLocaleLowerCase();
-    return product.name.toLocaleLowerCase().includes(LowerCaseSearchInput);
+    const lowerCaseSearchInput = search.toLocaleLowerCase();
+    return product.name.toLocaleLowerCase().includes(lowerCaseSearchInput);
   });
+
+  const records = filteredProduct.slice(firstIndex, lastIndex);
+  const numPages = Math.ceil(filteredProduct.length / recordsPerPage);
+  const pageNumbers = [...Array(numPages).keys()].map((n) => n + 1);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
+
   const handlePriceRange = (e) => {
     setSelectedPrice(e.target.value);
   };
@@ -31,10 +41,11 @@ const Shops = () => {
   const goToCart = () => {
     navigate("/user/cart");
   };
+
   const getData = async () => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("/api/user/userfetchproducts");
+      const response = await instance.post("/api/user/userfetchproducts");
       dispatch(hideLoading());
       if (response.data.success) {
         setProducts(response.data.data);
@@ -46,6 +57,7 @@ const Shops = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getData();
     fetchUserDetails();
@@ -53,49 +65,41 @@ const Shops = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.post(
-        "/api/user/profiledetails",
-        {},
-        {
-          headers: {
-            Authorisation: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
+      const response = await instance.post("/api/user/profiledetails");
       setUser(response.data.data);
     } catch (error) {
       console.error("Error fetching user details", error);
     }
   };
 
-  const  getSortedProduct = async()=>{
+  const getSortedProduct = async () => {
     try {
-
       const formData = {
-        selectedPrice
-      }
+        selectedPrice,
+      };
 
-      if(formData){
-        const response  = await axios.post('/api/user/pricesort',formData)
-        if(response.data.success){
+      if (formData) {
+        const response = await instance.post("/api/user/pricesort", formData);
+        if (response.data.success) {
           setProducts(response.data.data);
-        }else{
-          toast.error('something went wrong.')
+        } else {
+          toast.error("Something went wrong.");
         }
-      }else{
-        toast.error('something went wrong...')
+      } else {
+        toast.error("Something went wrong...");
       }
     } catch (error) {
       console.log(error);
     }
-  }
-  const getfilterProduct = async () => {
+  };
+
+  const getFilteredProduct = async () => {
     try {
       const formData = {
         selectedCategory,
       };
 
-      const response = await axios.post(
+      const response = await instance.post(
         "/api/user/usercatogoryfetchproducts",
         formData
       );
@@ -109,12 +113,12 @@ const Shops = () => {
   };
 
   useEffect(() => {
-    getfilterProduct();
+    getFilteredProduct();
   }, [selectedCategory]);
 
-  useEffect(()=>{
-    getSortedProduct()
-  },[selectedPrice])
+  useEffect(() => {
+    getSortedProduct();
+  }, [selectedPrice]);
 
   const addToCart = async (productId) => {
     try {
@@ -125,7 +129,7 @@ const Shops = () => {
         };
 
         if (formData) {
-          const response = await axios.post("/api/user/addtocart", formData);
+          const response = await instance.post("/api/user/addtocart", formData);
 
           if (response.data.success) {
             toast.success(response.data.message);
@@ -133,18 +137,34 @@ const Shops = () => {
             toast.error(response.data.message);
           }
         } else {
-          toast.error("something went wrong..");
+          toast.error("Something went wrong..");
         }
       } else {
-        toast.error("something went wrong...");
+        toast.error("Something went wrong...");
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const detailview = (productId) => {
+  const detailView = (productId) => {
     navigate("/user/detailview", { state: { productId } });
+  };
+
+  const prePage = () => {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const changePage = (id) => {
+    setCurrentPage(id);
   };
 
   return (
@@ -152,11 +172,11 @@ const Shops = () => {
       <div>
         <header className="p-2 dark:bg-gray-500 dark:text-gray-100">
           <div className="container flex justify-between h-10 mx-auto">
-            <div class="relative inline-block text-left">
+            <div className="relative inline-block text-left">
               <select
                 onChange={handleCategoryChange}
                 name="category"
-                class="appearance-none bg-gray-600 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:bg-slate-900 focus:border-gray-500 dark:focus:border-gray-400"
+                className="appearance-none bg-gray-600 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:bg-slate-900 focus:border-gray-500 dark:focus:border-gray-400"
               >
                 <option value="all">All</option>
                 <option value="gain">Gain</option>
@@ -165,7 +185,7 @@ const Shops = () => {
               <select
                 onChange={handlePriceRange}
                 name="price_range"
-                class="appearance-none ml-2 bg-gray-600 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:bg-slate-900 focus:border-gray-500 dark:focus:border-gray-400"
+                className="appearance-none ml-2 bg-gray-600 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:bg-slate-900 focus:border-gray-500 dark:focus:border-gray-400"
               >
                 <option value="">Sort</option>
                 <option value="1">0-500</option>
@@ -175,20 +195,18 @@ const Shops = () => {
                 <option value="5">3000-4000</option>
                 <option value="6">4000-5000</option>
                 <option value="7">5000-10000</option>
-
-
               </select>
 
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-600">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-600">
                 <svg
-                  class="w-4 h-4 fill-current"
+                  className="w-4 h-4 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M9.293 11.293a1 1 0 011.414 0L12 12.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
               </div>
@@ -220,13 +238,17 @@ const Shops = () => {
                   type="search"
                   name="Search"
                   value={search}
-                  onChange={(e) => setSerch(e.target.value)}
+                  onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
                   className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none dark:bg-gray-800 dark:text-gray-100 focus:dark:bg-gray-900"
                 />
               </div>
             </div>
-            <button title="Open menu" type="button" className="p-4 lg:hidden">
+            <button
+              title="Open menu"
+              type="button"
+              className="p-4 lg:hidden"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -247,14 +269,14 @@ const Shops = () => {
       </div>
 
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-slate-200">
-        {filteredProduct.map((product, index) => (
+        {records.map((product, index) => (
           <div
             key={index}
             className="max-w-md mx-auto bg-gray-300 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300 p-2"
           >
             <img
               onClick={() => {
-                detailview(product._id);
+                detailView(product._id);
               }}
               className="w-full h-48 object-cover rounded-md"
               src={`http://localhost:5000/upload/${product.image}`}
@@ -270,7 +292,7 @@ const Shops = () => {
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
                   onClick={() => {
-                    addToCart(product?._id);
+                    addToCart(product._id);
                   }}
                 >
                   Add to Cart
@@ -279,6 +301,57 @@ const Shops = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="p-3">
+        <div className="flex justify-center space-x-1 dark:text-gray-100">
+          <button
+            onClick={prePage}
+            title="previous"
+            type="button"
+            className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-gray-900 dark:border-gray-800"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          {pageNumbers.map((data, index) => (
+            <button
+              onClick={() => changePage(data)}
+              key={index}
+              type="button"
+              className="inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md dark:bg-gray-900 dark:text-violet-400 dark:border-violet-400"
+            >
+              {data}
+            </button>
+          ))}
+          <button
+            onClick={nextPage}
+            title="next"
+            type="button"
+            className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-gray-900 dark:border-gray-800"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

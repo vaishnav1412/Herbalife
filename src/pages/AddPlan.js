@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import admininstance from "../Axios/adminAxiosConfig";
 
 const AddPlan = () => {
   const navigate = useNavigate("");
@@ -60,14 +61,20 @@ const AddPlan = () => {
         features,
       };
       try {
-        const response = await axios.post("/api/admin/addplans", formData);
-        if (response.data.success) {
-          toast.success(response.data.message);
-
-          navigate("/dashboard/plan");
-        } else {
-          toast.error(response.data.message);
-        }
+        admininstance
+        .post("/api/admin/addplans", formData)
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message);
+  
+            navigate("/dashboard/plan");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
       }

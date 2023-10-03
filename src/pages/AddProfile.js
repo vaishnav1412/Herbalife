@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import toast from "react-hot-toast";
+import admininstance from "../Axios/adminAxiosConfig";
 
 const AddProfile = () => {
   const [role, setRole] = useState("");
@@ -48,17 +49,24 @@ const AddProfile = () => {
         qualification,
       };
       try {
-        const response = await axios.post(
+
+        admininstance
+        .post(
           "/api/admin/adminprofiledata",
           formData
-        );
-        if (response.data.success) {
-          toast.success(response.data.message);
-
-          navigate("/dashboard/profile");
-        } else {
-          toast.error(response.data.message);
-        }
+        )
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message);
+  
+            navigate("/dashboard/profile");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } catch (error) {
         console.error("Email varification failed :", error);
       }

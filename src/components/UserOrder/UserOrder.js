@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react'
+import instance from '../../Axios/axiosConfig';
 import toast from "react-hot-toast";
-import axios from "axios";
-
 const UserOrder = () => {
  
  const [order,setorder ] = useState([])
  const fetchUserDetails = async() => {
   try {
-    const response = await axios.post(
+    instance.post(
       "/api/user/usersideorderdetails",
-      {},
-      {
-        headers: {
-          Authorisation: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    setorder(response.data.data);
-  
+     
+    )
+    .then((response) => {
+     
+      setorder(response.data.data);
+    })
+    .catch((error) => {
+     
+      toast.error('something went worng...');
+    });
   } catch (error) {
     console.error("Error fetching user details", error);
   }
 };
 
-
 useEffect(()=>{
-  
   fetchUserDetails()
 },[])
 

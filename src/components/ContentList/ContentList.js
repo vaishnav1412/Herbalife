@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import Swal from "sweetalert2";
 import admininstance from "../../Axios/adminAxiosConfig";
 

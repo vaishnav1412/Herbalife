@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import admininstance from "../Axios/adminAxiosConfig";
 
 const EditFood = () => {
   const location = useLocation();
@@ -30,13 +31,23 @@ const EditFood = () => {
         id,
       };
       try {
-        const response = await axios.post("/api/admin/editfood", formData);
-        if (response.data.success) {
-          navigate("/dashboard/foods");
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
+        admininstance
+        .post("/api/admin/editfood", formData)
+        .then((response) => {
+          if (response.data.success) {
+            navigate("/dashboard/foods");
+            toast.success(response.data.message);
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
+
+       
+
+
       } catch (error) {
         console.log(error);
       }
@@ -47,13 +58,25 @@ const EditFood = () => {
     const formData = {
       id,
     };
-    const response = await axios.post("/api/admin/fetchidfood", formData);
-    if (response) {
-      toast("rediarect to edit page");
-      setMenu(response.data.data);
-    } else {
-      toast("something wentwrong");
-    }
+
+    admininstance
+    .post("/api/admin/fetchidfood", formData)
+    .then((response) => {
+      if (response) {
+        toast("rediarect to edit page");
+        setMenu(response.data.data);
+      } else {
+        toast("something wentwrong");
+      }
+    })
+    .catch((error) => {
+      toast.error("something went worng...");
+    });
+    
+   
+
+
+
   };
 
   useEffect(() => {

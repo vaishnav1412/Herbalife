@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { useDispatch } from 'react-redux';
 import instance from '../../Axios/axiosConfig';
@@ -18,11 +17,8 @@ const [video,setVideo] = useState('https://www.youtube.com/embed/ly36kn0ug4k')
       if (response.data.success) {
         setMenu(response.data.data)
       } else {
-        
         toast('something went worng')
       }
-     
-    
     })
     .catch((error) => {
       dispatch(hideLoading())
@@ -30,7 +26,6 @@ const [video,setVideo] = useState('https://www.youtube.com/embed/ly36kn0ug4k')
     });
   }
   
-
   useEffect(()=>{
     getData()
   },[])

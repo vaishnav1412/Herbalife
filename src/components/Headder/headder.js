@@ -1,41 +1,32 @@
 import "./headder.css";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 const logo = require("../../assets/other/my-logo.png");
 
-
-
 const Headder = () => {
-
-  let [ user,setUser ] = useState('')
-  
-  const id = user._id
-  
-
-  const navigate = useNavigate()
+  let [user, setUser] = useState("");
+  const id = user._id;
+  const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("token");
     setTimeout(() => {
-      navigate('/');
-    }, 100); 
-  }
+      navigate("/");
+    }, 100);
+  };
 
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.post(
-        "/api/user/profiledetails",
-        {},
-        {
-          headers: {
-            Authorisation: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      setUser(response.data.data);
-      
+      instance
+        .post("/api/user/profiledetails")
+        .then((response) => {
+          setUser(response.data.data);
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
     } catch (error) {
       console.error("Error fetching user details", error);
     }
@@ -43,109 +34,100 @@ const Headder = () => {
 
   useEffect(() => {
     fetchUserDetails();
-  });
+  }, []);
   useEffect(() => {
-
-    if (!localStorage.getItem('token')) {
-      navigate('/');
-    }else{
-    if (user.isBlock === 1) {
-      localStorage.removeItem("token");
-     
+    if (!localStorage.getItem("token")) {
       navigate("/");
-    }}
+    } else {
+      if (user.isBlock === 1) {
+        localStorage.removeItem("token");
+
+        navigate("/");
+      }
+    }
   });
 
-
-  const navigateBmi = async () =>{
-
+  const navigateBmi = async () => {
     try {
       const formData = {
-            id
-      }
-      const response = await axios.post("/api/user/primecheck",formData)
-      if(response.data.success){
-        navigate('/user/bmi')
-      }else{
-        navigate("/user/premiumuser")
+        id,
+      };
+      const response = await instance.post("/api/user/primecheck", formData);
+      if (response.data.success) {
+        navigate("/user/bmi");
+      } else {
+        navigate("/user/premiumuser");
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
     }
-   
-  }
+  };
 
-  const navigateNotification = ()=>{
-    navigate('/user/notification')
-  }
+  const navigateNotification = () => {
+    navigate("/user/notification");
+  };
 
-  const navigateAppoinment =async() =>{
+  const navigateAppoinment = async () => {
     try {
       const formData = {
-            id
-      }
-      const response = await axios.post("/api/user/primecheck",formData)
-      if(response.data.success){
-        navigate('/user/appoinment')
-      }else{
-        navigate("/user/premiumuser")
+        id,
+      };
+      const response = await instance.post("/api/user/primecheck", formData);
+      if (response.data.success) {
+        navigate("/user/appoinment");
+      } else {
+        navigate("/user/premiumuser");
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
     }
+  };
 
-  }
+  const navigatetoshop = () => {
+    navigate("/user/shop");
+  };
 
-  const navigatetoshop = ()=>{
-    navigate('/user/shop')
-  }
-
-
-  const navigateWorkout =async ()=>{
-
+  const navigateWorkout = async () => {
     try {
       const formData = {
-            id
-      }
-      const response = await axios.post("/api/user/primecheck",formData)
-      if(response.data.success){
-        navigate('/user/workouts')
-      }else{
-        navigate("/user/premiumuser")
-        toast.error(response.data.message);
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
-
-  const navigateFoodControll=async() =>{
-    try {
-      const formData = {
-            id
-      }
-      const response = await axios.post("/api/user/primecheck",formData)
-      if(response.data.success){
-        navigate('/user/foods')
-      }else{
-        navigate("/user/premiumuser")
+        id,
+      };
+      const response = await instance.post("/api/user/primecheck", formData);
+      if (response.data.success) {
+        navigate("/user/workouts");
+      } else {
+        navigate("/user/premiumuser");
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
     }
-  }
-  const navigateHome = ()=>{
-    navigate('/user/home')
-  }
-  const navigateProfile = ()=>{
-    navigate('/user/userprofile')
-  }
+  };
 
+  const navigateFoodControll = async () => {
+    try {
+      const formData = {
+        id,
+      };
+      const response = await instance.post("/api/user/primecheck", formData);
+      if (response.data.success) {
+        navigate("/user/foods");
+      } else {
+        navigate("/user/premiumuser");
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const navigateHome = () => {
+    navigate("/user/home");
+  };
+  const navigateProfile = () => {
+    navigate("/user/userprofile");
+  };
 
   return (
     <div className="headder_container">
@@ -156,17 +138,96 @@ const Headder = () => {
           </a>
           <div className="hidden md:flex items-center space-x-4">
             <ul className="flex space-x-4 text-gray-900">
-             
-                <li><a onClick={() => {navigateHome()}} className="hover:underline">Home</a></li>
-                <li><a  onClick={() => {navigatetoshop()}} className="hover:underline">Shop</a></li>
-                <li><a onClick={() => {navigateBmi()}} className="hover:underline">BMI</a></li>
-                <li><a  onClick={() => {navigateAppoinment()}} className="hover:underline">Appoinment</a></li>
-                <li><a  onClick={() => {navigateWorkout()}} className="hover:underline">Workouts</a></li>
-                <li><a onClick={() => {navigateFoodControll()}} className="hover:underline">Food Control</a></li>
-                <li><a onClick={()=>{navigateNotification()}} className="hover:underline">Notification</a></li>
-                <li><a onClick={() => {navigateProfile()}} className="hover:underline" >Profile</a></li>
-                <li><a className="hover:underline text-red-600" onClick={()=>{logout()}}>Logout</a></li>
-           
+              <li>
+                <a
+                  onClick={() => {
+                    navigateHome();
+                  }}
+                  className="hover:underline"
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigatetoshop();
+                  }}
+                  className="hover:underline"
+                >
+                  Shop
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateBmi();
+                  }}
+                  className="hover:underline"
+                >
+                  BMI
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateAppoinment();
+                  }}
+                  className="hover:underline"
+                >
+                  Appoinment
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateWorkout();
+                  }}
+                  className="hover:underline"
+                >
+                  Workouts
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateFoodControll();
+                  }}
+                  className="hover:underline"
+                >
+                  Food Control
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateNotification();
+                  }}
+                  className="hover:underline"
+                >
+                  Notification
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    navigateProfile();
+                  }}
+                  className="hover:underline"
+                >
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a
+                  className="hover:underline text-red-600"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
             </ul>
           </div>
           <div className="md:hidden">
@@ -200,14 +261,30 @@ const Headder = () => {
                   </Disclosure.Button>
                   <Disclosure.Panel>
                     <ul className="flex flex-col space-y-2 p-4 text-gray-900">
-                <li><a className="hover:underline">Home</a></li>
-                <li><a className="hover:underline">Shop</a></li>
-                <li><a className="hover:underline">BMI</a></li>
-                <li><a className="hover:underline">Appoinment</a></li>
-                <li><a className="hover:underline">Workouts</a></li>
-                <li><a className="hover:underline">Notification</a></li>
-                <li><a className="hover:underline">Profile</a></li>
-                <li><a className="hover:underline">Login</a></li>
+                      <li>
+                        <a className="hover:underline">Home</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Shop</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">BMI</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Appoinment</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Workouts</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Notification</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Profile</a>
+                      </li>
+                      <li>
+                        <a className="hover:underline">Login</a>
+                      </li>
                     </ul>
                   </Disclosure.Panel>
                 </>

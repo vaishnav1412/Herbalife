@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import instance from '../../Axios/axiosConfig';
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { useDispatch } from 'react-redux';
 
@@ -8,11 +8,11 @@ const Banner = () => {
   const [banner, setBanner] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch()
-
+  
   const getData = async () => {
     try {
       dispatch(showLoading())
-      const response = await axios.post('/api/user/bannerlist');
+      const response = await instance.post('/api/user/bannerlist');
       dispatch(hideLoading())
       if (response.data.data) {
         setBanner(response.data.data);
@@ -44,11 +44,10 @@ const Banner = () => {
   }, [banner]);
 
   useEffect(() => {
-    // This effect will handle the text opacity transition
     const textOpacityTimeout = setTimeout(() => {
       const nextIndex = (currentIndex + 1) % banner.length;
       setCurrentIndex(nextIndex);
-    }, 2000); // Adjust the duration as needed for your transition
+    }, 2000); 
 
     return () => clearTimeout(textOpacityTimeout);
   }, [currentIndex, banner]);
@@ -93,7 +92,7 @@ const Banner = () => {
         data-carousel-prev
         onClick={handlePrevClick}
       >
-        {/* Use your SVG image here for Previous */}
+      
       </button>
       <button
         type='button'
@@ -101,7 +100,7 @@ const Banner = () => {
         data-carousel-next
         onClick={handleNextClick}
       >
-        {/* Use your SVG image here for Next */}
+      
       </button>
     </div>
   );

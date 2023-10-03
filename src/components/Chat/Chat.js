@@ -3,10 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import io from 'socket.io-client'
 import { useLocation } from "react-router-dom";
-const socket = io.connect("http://localhost:5000")
+ const socket = io.connect("http://localhost:5000")
 
 const Chat = () => {
-  
+ 
+
   const [admin,setAdmin] = useState('')
   const [user,setUser]  = useState('')
   const [message,setMessage] = useState('')
@@ -98,10 +99,9 @@ const id = location.state?.id
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log("helooasod"+data);
-      chatMessages()
-    });
-  }, [socket]);
+      console.log("Received message:", data);  
+    });  
+  },[socket]);
 
 
   return (

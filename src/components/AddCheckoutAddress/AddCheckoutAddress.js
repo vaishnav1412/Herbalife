@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
+import instance from '../../Axios/axiosConfig';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import toast from "react-hot-toast";
@@ -65,7 +65,7 @@ if(isVarified){
    id
   };
   try {
-    const response = await axios.post("/api/user/addcheckoutaddress", formData);
+    const response = await instance.post("/api/user/addcheckoutaddress", formData);
     if (response.data.success) {
       toast.success(response.data.message);
       
@@ -86,11 +86,7 @@ if(isVarified){
     const[user,setUser] =useState('')
   const getuser =async () =>{
     try {
-      const response = await axios.post('/api/user/profiledetails',{},{
-        headers :{
-          Authorisation :'Bearer '+localStorage.getItem('token')
-      }
-      });
+      const response = await instance.post('/api/user/profiledetails');
       setUser(response.data.data);
     } catch (error) {
       console.error('Error fetching user details', error);

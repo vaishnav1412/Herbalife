@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import axios from 'axios';
+import toast from "react-hot-toast";
+import admininstance from "../../Axios/adminAxiosConfig";
 
 const Graph = () => {
   const [chartData, setChartData] = useState({
@@ -57,7 +58,7 @@ const Graph = () => {
 
   useEffect(() => {
     
-    axios.post('/api/admin/dashboarddisplayorders').then((response) => {
+    admininstance.post('/api/admin/dashboarddisplayorders').then((response) => {
       const orders = response.data.data;
       const monthlySales = {};
       orders.forEach((order) => {
@@ -90,6 +91,8 @@ const Graph = () => {
           },
         },
       });
+    }).catch((error) => {
+      toast.error("something went worng...");
     });
   }, []);
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import admininstance from "../Axios/adminAxiosConfig";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -52,13 +52,21 @@ const AddFood = () => {
         catogory,
       };
       try {
-        const response = await axios.post("/api/admin/savefood", formData);
-        if (response.data.success) {
-          navigate("/dashboard/foods");
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
+
+        admininstance
+        .post("/api/admin/savefood", formData)
+        .then((response) => {
+          if (response.data.success) {
+            navigate("/dashboard/foods");
+            toast.success(response.data.message);
+          } else {
+            toast.error(response.data.message);
+          }
+  
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } catch (error) {
         console.log(error);
       }

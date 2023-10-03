@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import axios from 'axios';
+import admininstance from "../../Axios/adminAxiosConfig";
 
 function Graph2() {
   const [chartData, setChartData] = useState({
@@ -51,7 +51,7 @@ function Graph2() {
    
     async function fetchData() {
       try {
-        const response = await axios.post('/api/admin/displayorders'); 
+        const response = await admininstance.post('/api/admin/displayorders'); 
         const data = await response.data.data
 
         const placedOrdersCount = data.filter((order) => order.status === 'Placed').length;

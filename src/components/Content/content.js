@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import axios from 'axios';
+
+import instance from '../../Axios/axiosConfig';
 
 const Content = () => {
     const [content,setcontent] = useState([])
 
     const getData = async() =>{
         try {
-            const response = await axios.post('/api/user/contentlist');
+            const response = await instance.post('/api/user/contentlist');
       
             if (response.data.data) {
               setcontent(response.data.data);

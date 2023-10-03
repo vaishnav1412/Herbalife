@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import admininstance from "../Axios/adminAxiosConfig";
 
 const AddVideo = () => {
   const navigate = useNavigate("");
@@ -38,14 +39,20 @@ const AddVideo = () => {
         link,
       };
       try {
-        const response = await axios.post("/api/admin/addvideos", formData);
-        if (response.data.success) {
-          toast.success(response.data.message);
-
-          navigate("/dashboard/workouts");
-        } else {
-          toast.error(response.data.message);
-        }
+        admininstance
+        .post("/api/admin/addvideos", formData)
+        .then((response) => {
+          if (response.data.success) {
+            toast.success(response.data.message);
+  
+            navigate("/dashboard/workouts");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } catch (error) {
         console.error("Error submitting form:", error);
       }

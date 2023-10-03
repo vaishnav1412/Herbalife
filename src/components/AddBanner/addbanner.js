@@ -3,6 +3,7 @@ import './addbanner.css';
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import admininstance from "../../Axios/adminAxiosConfig";
 
 
 const Addbanner = () => {
@@ -43,19 +44,24 @@ const Addbanner = () => {
             
 
             try {
-              const response=await axios.post('/api/admin/addbanner',formData, {
-                headers:{
-                  'Content-Type': 'multipart/form-data',
-                }
-            })
-            
-                if (response.data.success) {
-                    toast.success(response.data.message);
-                    toast("Redirected to banner page");
-                    navigate("/dashboard/banners");
-                } else {
-                    toast.error(response.data.message);
-                }
+                admininstance
+                .post('/api/admin/addbanner',formData, {
+                    headers:{
+                      'Content-Type': 'multipart/form-data',
+                    }
+                })
+                .then((response) => {
+                    if (response.data.success) {
+                        toast.success(response.data.message);
+                        toast("Redirected to banner page");
+                        navigate("/dashboard/banners");
+                    } else {
+                        toast.error(response.data.message);
+                    }
+                })
+                .catch((error) => {
+                  toast.error("something went worng...");
+                });
             } catch (error) {
                 console.log(error);
             }

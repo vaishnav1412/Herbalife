@@ -3,9 +3,6 @@ import toast from "react-hot-toast";
 import admininstance from "../../Axios/adminAxiosConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import ReactPaginate from 'react-paginate';
-
-
 
 const Listproducts = () => {
   const navigate = useNavigate();
@@ -103,9 +100,7 @@ const Listproducts = () => {
     navigate("/dashboard/editproducts", { state: { id } });
   };
    
-  const handlePageClick = (e)=>{
-
-  }
+  
   return (
     <div className="w-full">
       <div className="p-5 h-full bg-gray-200">

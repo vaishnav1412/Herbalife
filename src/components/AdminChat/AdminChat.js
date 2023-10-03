@@ -12,11 +12,11 @@ const AdminChat = () => {
    const [membership,setMembership] = useState('')
    
    const room =user._id
-   const singleuser =(id)=>{
-    socket.emit("join_room",id)
-    navigate(`/dashboard/adminchat/singelchat/${id}`);
-   }
-
+  //  const singleuser =(id)=>{
+  //   socket.emit("join_room",id)
+  //   navigate(`/dashboard/adminchat/singelchat/${id}`);
+  //  }
+  // onClick={()=>{singleuser(items._id,room)}}
 
    const getData= async () =>{ 
 
@@ -60,7 +60,7 @@ const AdminChat = () => {
             <li>
 
               {user.map((items)=>{
-              return<a onClick={()=>{singleuser(items._id,room)}}
+              return<a 
                 class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out text-white  bg-slate-700 border-b border-gray-400 cursor-pointer hover:bg-gray-400 focus:outline-none">
                 <img class="object-cover w-10 h-10 rounded-full"
                    src={`http://localhost:5000/upload/${items?.image}`} alt="username" />

@@ -6,14 +6,11 @@ import { HiOutlineChartPie } from "react-icons/hi";
 import { HiTerminal } from "react-icons/hi";
 import { HiOutlineClipboard } from "react-icons/hi";
 import { HiOutlineFilm } from "react-icons/hi";
-import { HiOutlineScale } from "react-icons/hi";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { HiUserGroup } from "react-icons/hi";
-import { HiBell } from "react-icons/hi";
 
 import toast from "react-hot-toast";
-
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
@@ -44,6 +41,11 @@ import AddRoom from "../../pages/AddRoom.js";
 import AdminVideoCall from "../../pages/AdminVideoCall.js";
 import AdminProtected from "../../protect/adminProtected.js";
 import AdminSidePrimeUsers from "../../pages/AdminSidePrimeUsers.js";
+import AdminSideSingleUserPurchase from "../../pages/AdminSideSingleUserPurchase.js";
+
+const AdminSideSingleUserPurchaseContainer = ({ props }) => {
+  return <AdminSideSingleUserPurchase{...props} />;
+}
 
 const AdminSidePrimeUsersContainer = ({ props }) => {
   return <AdminSidePrimeUsers{...props} />;
@@ -233,15 +235,14 @@ const Sidebar = () => {
           <Route path="/editfood" element={ <AdminProtected><EditFoodContainer /> </AdminProtected>} />
           <Route path="/addcontent" element={ <AdminProtected><AddContentContainer /> </AdminProtected>} />
           <Route path="/content" element={ <AdminProtected><ListContentContainer /> </AdminProtected>} />
-
           <Route path="/adminchat*" element={ <AdminProtected><AdminChatContainer /> </AdminProtected>} />
           <Route path="/" element={ <AdminProtected><DashboardLayouts /> </AdminProtected>} />
-
           <Route path="/ordes" element={ <AdminProtected><OrderContainer/> </AdminProtected>}/>
           <Route path="/orderdproduct/:id" element={ <AdminProtected><OrderedProductContainer/> </AdminProtected>}/>
           <Route path="/createroom" element={ <AdminProtected><AddRoomContainer/> </AdminProtected>}/>
           <Route path="/adminvideocall/:roomId" element={ <AdminProtected><AdminVideoCallContainer/></AdminProtected>} />
           <Route path="/primeusers" element={<AdminProtected><AdminSidePrimeUsersContainer/></AdminProtected>} />
+          <Route path="/separateview" element={<AdminProtected><AdminSideSingleUserPurchaseContainer/></AdminProtected>} />
         </Routes>
       </div>
     </section>

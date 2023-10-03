@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import admininstance from "../../Axios/adminAxiosConfig";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -19,12 +20,20 @@ const AddRooms = () => {
     const formData = {
       roomId,
     };
-    const response = await axios.post("/api/admin/roomcheck", formData);
-    if (response.data.success) {
-      navigate(`/dashboard/adminvideocall/${roomId}`);
-    } else {
-      toast.error(response.data.message);
-    }
+
+    admininstance
+    .post("/api/admin/roomcheck", formData)
+    .then((response) => {
+      if (response.data.success) {
+        navigate(`/dashboard/adminvideocall/${roomId}`);
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((error) => {
+      toast.error("something went worng...");
+    });
+   
   }, [roomId]);
 
   const handleCreateRoom = (event) => {
@@ -43,13 +52,20 @@ const AddRooms = () => {
         room,
       };
       if (formData) {
-        const response = await axios.post("/api/admin/addroomid", formData);
-        if (response.data.success) {
-          getData();
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
+
+        admininstance
+        .post("/api/admin/addroomid", formData)
+        .then((response) => {
+          if (response.data.success) {
+            getData();
+            toast.success(response.data.message);
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("something went worng...");
+        });
       } else {
         toast.error("something went wrong...");
       }
@@ -73,13 +89,19 @@ const AddRooms = () => {
     .then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.post("/api/admin/deleteroom");
-          if (response.data.success) {
-            setData("");
-            toast.success(response.data.message);
-          } else {
-            toast.error(response.data.message);
-          }
+          admininstance
+            .post("/api/admin/deleteroom")
+            .then((response) => {
+              if (response.data.success) {
+                setData("");
+                toast.success(response.data.message);
+              } else {
+                toast.error(response.data.message);
+              }
+            })
+            .catch((error) => {
+              toast.error("something went worng...");
+            });
         } catch (error) {
           toast.error("Something went wrong...");
         }
@@ -90,13 +112,19 @@ const AddRooms = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.post("/api/admin/findroomid");
-      if (response.data.success) {
-        setData(response.data.data);
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message);
-      }
+      admininstance
+      .post("/api/admin/findroomid")
+      .then((response) => {
+        if (response.data.success) {
+          setData(response.data.data);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        toast.error("something went worng...");
+      });
     } catch (error) {
       console.log(error);
     }

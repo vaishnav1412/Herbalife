@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
+import instance from '../../Axios/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
 
@@ -14,7 +14,9 @@ const [email,setEmail] =useState('')
 useEffect(() => {
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.post(
+
+
+      instance.post(
         "/api/user/profiledetails",
         {},
         {
@@ -22,9 +24,15 @@ useEffect(() => {
             Authorisation: "Bearer " + localStorage.getItem("token"),
           },
         }
-      );
-      setUser(response.data.data);
+      )
+      .then((response) => {
+        setUser(response.data.data);
       
+      })
+      .catch((error) => {
+       
+        toast.error('something went worng...');
+      });
     } catch (error) {
       console.error("Error fetching user details", error);
     }
@@ -58,16 +66,25 @@ const handleSubmit =async (event) =>{
        id
         };
         try {
-            const response = await axios.post("/api/user/userprofileeditdata", formData);
+
+
+          instance.post("/api/user/userprofileeditdata", formData)
+          .then((response) => {
+           
             if (response.data.success) {
               toast.success(response.data.message);
              
-              navigate("/userprofile"); 
+              navigate("/user/userprofile"); 
             } else {
                 toast.error(response.data.message);
              
-                navigate("/userprofile"); 
+                navigate("/user/userprofile"); 
             }
+          })
+          .catch((error) => {
+           
+            toast.error('something went worng...');
+          });
           } catch (error) {
             console.log(error);
           }
