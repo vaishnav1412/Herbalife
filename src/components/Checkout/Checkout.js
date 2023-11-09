@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-
+import { apiEndPoints } from "../../util/api";
 const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
@@ -20,7 +20,7 @@ const Checkout = () => {
   const fetchUserDetails = async () => {
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/fetchcartdetails");
+      const response = await instance.post(apiEndPoints.fetchCartDetails);
       dispatch(hideLoading());
       if (response.data.success) {
         setList(response.data.data.products);
@@ -60,7 +60,7 @@ const Checkout = () => {
         if (result.isConfirmed) {
           if (addressId && id) {
             const response = await instance.post(
-              "/api/user/deleteaddress",
+             apiEndPoints.deleteCheckoutAddress,
               formData
             );
 
@@ -97,7 +97,7 @@ const Checkout = () => {
       id,
     };
     try {
-      const response = await instance.post("/api/user/productpurchase", formData);
+      const response = await instance.post(apiEndPoints.productPurchase, formData);
       if (response.data.success) {
         toast.success(response.data.message);
 
@@ -119,7 +119,7 @@ const Checkout = () => {
     };
     try {
       const response = await instance.post(
-        "/api/user/verifyproductpayment",
+       apiEndPoints.varifyPayment,
         formData
       );
       if (response.data.success) {
@@ -307,7 +307,7 @@ const Checkout = () => {
                 <li class="grid grid-cols-6 gap-2 border-b-1">
                   <div class="col-span-1 self-center">
                     <img
-                      src={`http://localhost:5000/upload/${list?.image}`}
+                      src={`https://herbalproject.online/upload/${list?.image}`}
                       alt="Product"
                       class="rounded w-full"
                     />

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/axiosConfig';
 import toast from "react-hot-toast";
+import { apiEndPoints } from "../../util/api";
 const UserOrder = () => {
  
  const [order,setorder ] = useState([])
  const fetchUserDetails = async() => {
   try {
     instance.post(
-      "/api/user/usersideorderdetails",
+     apiEndPoints.userSideOrder,
      
     )
     .then((response) => {
@@ -44,7 +45,7 @@ useEffect(()=>{
            return<li className="grid grid-cols-6 gap-2 border-b-1">
              <div className="col-span-1 self-center">
                <img
-                 src={`http://localhost:5000/upload/${product?.image}`}
+                 src={`https://herbalproject.online/upload/${product?.image}`}
                  alt="Product"
                  className="rounded w-14 h-14"
                />

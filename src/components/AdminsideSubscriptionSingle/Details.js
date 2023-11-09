@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import admininstance from "../../Axios/adminAxiosConfig";
 import toast from "react-hot-toast";
+import { apiEndPoints } from "../../util/api";
 
 const Details = () => {
   const { state } = useLocation();
@@ -15,7 +16,7 @@ const Details = () => {
       };
       if (formdata) {
         admininstance
-          .post("/api/admin/subscriptionadminsidesingledata", formdata)
+          .post(apiEndPoints.subscriptionDetails, formdata)
           .then((response) => {
             if (response.data.success) {
               setPlan(response.data.data);

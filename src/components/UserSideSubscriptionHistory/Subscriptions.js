@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import instance from "../../Axios/axiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const Subscriptions = () => {
   const [plan, setPlan] = useState([]);
 
   const fetchData = () => {
     try {
       instance
-        .post("/api/user/fetchsubscriptionhistory")
+        .post(apiEndPoints.fetchSubscriptionHistory)
         .then((response) => {
           if (response.data.success) {
             setPlan(response.data.data);

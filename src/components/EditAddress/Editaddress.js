@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import instance from "../../Axios/axiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const Editaddress = () => {
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ const Editaddress = () => {
   const fetchUserDetails = async () => {
     try {
       instance
-        .post("/api/user/profiledetails")
+        .post(apiEndPoints.userProfileDetails)
         .then((response) => {
           setUser(response.data.data);
           setAddress(response.data.data2.addresses);
@@ -60,7 +60,7 @@ const Editaddress = () => {
       };
       try {
         instance.post(
-          "/api/user/userprofileaddressedit",
+         apiEndPoints.userProfileAddressEdit,
           formData
         )
         .then((response) => {

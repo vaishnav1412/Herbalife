@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/axiosConfig';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { apiEndPoints } from "../../util/api";
 import toast from "react-hot-toast";
 
 const CheckoutAddaddress =() => {
@@ -65,7 +65,7 @@ if(isVarified){
    id
   };
   try {
-    const response = await instance.post("/api/user/addcheckoutaddress", formData);
+    const response = await instance.post(apiEndPoints.addCheckoutAddress, formData);
     if (response.data.success) {
       toast.success(response.data.message);
       

@@ -4,7 +4,7 @@ import instance from "../../Axios/axiosConfig";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const Notifications = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState("");
@@ -17,7 +17,7 @@ const Notifications = () => {
   const live = () => {
     dispatch(showLoading());
     instance
-      .post("/api/user/videocallnotification")
+      .post(apiEndPoints.videoCallNotification)
       .then((response) => {
         dispatch(hideLoading());
         if (response.data.success) {
@@ -40,7 +40,7 @@ const Notifications = () => {
     if (formData) {
       dispatch(showLoading());
       instance
-        .post("/api/user/plannotification", formData)
+        .post(apiEndPoints.planNotification, formData)
         .then((response) => {
           dispatch(hideLoading());
           if (response.data.success) {
@@ -57,7 +57,7 @@ const Notifications = () => {
   const getData = async () => {
     dispatch(showLoading());
     instance
-      .post("/api/user/profiledetails")
+      .post(apiEndPoints.userProfileDetails)
       .then((response) => {
         dispatch(hideLoading());
         if (response.data.success) {

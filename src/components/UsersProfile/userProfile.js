@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import instance from "../../Axios/axiosConfig";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
+import { apiEndPoints } from "../../util/api";
 const images = require("../../assets/other/profile.png");
 
 const UserProfile = () => {
@@ -20,7 +21,7 @@ const UserProfile = () => {
       dispatch(showLoading());
       instance
         .post(
-          "/api/user/profiledetails",
+          apiEndPoints.userProfileDetails,
           {},
           {
             headers: {
@@ -52,7 +53,7 @@ const UserProfile = () => {
       try {
         dispatch(showLoading());
         instance
-          .post("/api/user/uploadImage", formData, {
+          .post(apiEndPoints.userUploadImage, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -105,7 +106,7 @@ const UserProfile = () => {
     };
     if (formData) {
       instance
-        .post("/api/user/plannotification", formData)
+        .post(apiEndPoints.planData, formData)
         .then((response) => {
           if (response.data.success) {
             setPlan(response.data.data);
@@ -127,6 +128,20 @@ const UserProfile = () => {
   const subscriptionHistory = () =>{
     navigate("/user/subscriptionhistory")
   }
+
+
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return '';
+    }
+    const originalDate = new Date(dateString);
+    const formattedDate = originalDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    return formattedDate;
+  };
    
   return (
     <div className="p-4 bg-black">
@@ -138,7 +153,7 @@ const UserProfile = () => {
               src={
                 !user.image
                   ? images
-                  : `http://localhost:5000/upload/${user.image}`
+                  : `https://herbalproject.online/upload/${user.image}`
               }
               alt="User Profile"
             />
@@ -266,19 +281,19 @@ const UserProfile = () => {
                       {" "}
                       Start Date:
                       <span className="font-bold text-orange-500">
-                        {plan?.startDate}
+                      {formatDate(plan?.startDate)}
                       </span>{" "}
                       <br />
                       End Date:{" "}
                       <span className="font-bold text-orange-500">
-                        {plan?.endDate}
+                      {formatDate(plan?.endDate)}
                       </span>{" "}
                       <br />
                     </p>
                   </>
                 )}
               </div>
-            </div>
+            </div>  
 
             <div className="w-full bg-white shadow-lg p-4 lg:p-4  hover:bg-slate-100">
               <div className="p-6 bg-white rounded-lg shadow-lg ">

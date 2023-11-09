@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { apiEndPoints } from "../../util/api";
 const VideocallRoomInputs = () => {
   const [room, setRoom] = useState("");
   const [roomId, setRoomId] = useState("");
-  
+ 
   
   const navigate = useNavigate()
   
@@ -14,7 +15,7 @@ const VideocallRoomInputs = () => {
     const formData = {
       roomId
   }
-  const response = await axios.post('/api/user/roomcheck',formData)
+  const response = await instance.post(apiEndPoints.userRoomCheck,formData)
   if(response.data.success){
 
    navigate(`/user/videocall/${roomId}`);
@@ -27,7 +28,7 @@ const VideocallRoomInputs = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.post("/api/user/findroomid");
+      const response = await instance.post(apiEndPoints.findRoomIds);
       if (response.data.success) {
         setRoom(response.data.data);
         toast.success(response.data.message);

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
+import { apiEndPoints } from "../../util/api";
 
 
 const Subscription = () => {
@@ -19,7 +20,7 @@ const Subscription = () => {
   const getData = async () => {
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/planlist");
+      const response = await instance.post(apiEndPoints.userPlanList);
       dispatch(hideLoading());
       setPlan(response.data.data);
     } catch (error) {
@@ -36,7 +37,7 @@ const Subscription = () => {
     const fetchUserDetails = async () => {
       try {
         dispatch(showLoading());
-        const response = await instance.post("/api/user/profiledetails");
+        const response = await instance.post(apiEndPoints.userProfileDetails);
         setUser(response.data.data);
         dispatch(hideLoading());
       } catch (error) {
@@ -55,7 +56,7 @@ const Subscription = () => {
     };
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/purchase", formData);
+      const response = await instance.post(apiEndPoints.planPurchase, formData);
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
@@ -75,7 +76,7 @@ const Subscription = () => {
     };
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/verifypayment", formData);
+      const response = await instance.post(apiEndPoints.planVerifyPayment, formData);
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);

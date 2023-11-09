@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { apiEndPoints } from "../../util/api";
 import Swal from "sweetalert2";
 import admininstance from "../../Axios/adminAxiosConfig";
 const Banner = () => {
   const [banner, setBanner] = useState([]);
   const getData = async () => {
     admininstance
-      .post("/api/admin/bannerlist")
+      .post(apiEndPoints.adminBannerList)
       .then((response) => {
         if (response.data.data) {
           setBanner(response.data.data);
@@ -98,7 +98,7 @@ const Banner = () => {
                     <td className="p-3 text-sm text-gray-700">
                       {" "}
                       <img
-                        src={`http://localhost:5000/upload/${items.image}`}
+                        src={`https://herbalproject.online/upload/${items.image}`}
                         alt={`Banner ${index + 1}`}
                         className="max-w-full h-10 w-10"
                       />

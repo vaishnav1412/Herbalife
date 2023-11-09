@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-
+import { apiEndPoints } from "../../util/api";
 import instance from '../../Axios/axiosConfig';
 
 const Content = () => {
@@ -8,7 +8,7 @@ const Content = () => {
 
     const getData = async() =>{
         try {
-            const response = await instance.post('/api/user/contentlist');
+            const response = await instance.post(apiEndPoints.contentList);
       
             if (response.data.data) {
               setcontent(response.data.data);

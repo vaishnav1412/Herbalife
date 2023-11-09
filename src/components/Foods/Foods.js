@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast";
 import Swal from 'sweetalert2';
+import { apiEndPoints } from "../../util/api";
 import admininstance from "../../Axios/adminAxiosConfig";
 const Foods = () => { 
     const [food,setFood] = 
@@ -39,7 +40,7 @@ const Foods = () => {
             customClass: "swal-delete-food",
           }).then(async (result) => {
             if (result.isConfirmed) {
-              admininstance.post("/api/admin/deletefood",formData)
+              admininstance.post(apiEndPoints.deleteFood,formData)
               .then((response) => {
                 if(response.data.success){
                   navigate('/dashboard/foods')
@@ -59,7 +60,7 @@ const Foods = () => {
         }
     }
     const  getFoods =async () =>{
-      admininstance.post("/api/admin/fetchfood")
+      admininstance.post(apiEndPoints.adminFetchFood)
       .then((response) => {
         if(response.data.success){
           setFood(response.data.data)

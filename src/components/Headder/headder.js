@@ -4,6 +4,7 @@ import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
+import { apiEndPoints } from "../../util/api";
 const logo = require("../../assets/other/my-logo.png");
 
 const Headder = () => {
@@ -20,7 +21,7 @@ const Headder = () => {
   const fetchUserDetails = async () => {
     try {
       instance
-        .post("/api/user/profiledetails")
+        .post(apiEndPoints.userProfileDetails)
         .then((response) => {
           setUser(response.data.data);
         })
@@ -52,7 +53,7 @@ const Headder = () => {
       const formData = {
         id,
       };
-      const response = await instance.post("/api/user/primecheck", formData);
+      const response = await instance.post(apiEndPoints.primecheck, formData);
       if (response.data.success) {
         navigate("/user/bmi");
       } else {
@@ -73,7 +74,7 @@ const Headder = () => {
       const formData = {
         id,
       };
-      const response = await instance.post("/api/user/primecheck", formData);
+      const response = await instance.post(apiEndPoints.primecheck, formData);
       if (response.data.success) {
         navigate("/user/appoinment");
       } else {
@@ -94,7 +95,7 @@ const Headder = () => {
       const formData = {
         id,
       };
-      const response = await instance.post("/api/user/primecheck", formData);
+      const response = await instance.post(apiEndPoints.primecheck, formData);
       if (response.data.success) {
         navigate("/user/workouts");
       } else {
@@ -111,7 +112,7 @@ const Headder = () => {
       const formData = {
         id,
       };
-      const response = await instance.post("/api/user/primecheck", formData);
+      const response = await instance.post(apiEndPoints.primecheck, formData);
       if (response.data.success) {
         navigate("/user/foods");
       } else {

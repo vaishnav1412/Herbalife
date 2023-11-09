@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 import axios from "axios";
 const VideoCall = () => {
 
@@ -15,7 +15,7 @@ const VideoCall = () => {
     try {
      
       const response = await axios.post(
-        "/api/user/profiledetails",
+        apiEndPoints.userProfileDetails,
         {},
         {
           headers: {

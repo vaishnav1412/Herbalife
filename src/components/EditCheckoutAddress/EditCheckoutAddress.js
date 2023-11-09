@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const EditCheckoutAddress = () => {
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
@@ -75,7 +75,7 @@ const EditCheckoutAddress = () => {
       };
       try {
         const response = await instance.post(
-          "/api/user/usercheckoutaddressedit",
+         apiEndPoints.editCheckoutAddress,
           formData
         );
         if (response.data.success) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import toast from "react-hot-toast";
-import axios from "axios";
+import { apiEndPoints } from "../../util/api";
 import { useNavigate } from 'react-router-dom';
 import admininstance from "../../Axios/adminAxiosConfig";
 
@@ -97,7 +97,7 @@ const Addproducts = () => {
 
       try {
         admininstance
-        .post('/api/admin/addproducts',formData, {
+        .post(apiEndPoints.addProducts,formData, {
           headers:{
             'Content-Type': 'multipart/form-data',
           }

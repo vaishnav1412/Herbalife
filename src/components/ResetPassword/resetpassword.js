@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { apiEndPoints } from "../../util/api";
 
 const Resetpassword = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Resetpassword = () => {
       };
 
       try {
-        const response = await axios.post("/api/user/resetpassword", formData);
+        const response = await axios.post(apiEndPoints.resetPassword, formData);
 
         if (response.data.success) {
           if (response.data.data === "admin") {

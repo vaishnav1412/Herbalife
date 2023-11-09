@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
+import { apiEndPoints } from "../../util/api";
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [list, setList] = useState([]);
@@ -16,7 +17,7 @@ const Cart = () => {
   const fetchUserDetails = async () => {
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/fetchcartdetails");
+      const response = await instance.post(apiEndPoints.fetchCartDetails);
       dispatch(hideLoading());
       if (response) {
         setList(response.data.data.products);
@@ -41,7 +42,7 @@ const Cart = () => {
       userId,
     };
     if (formData) {
-      const response = await instance.post("/api/user/increment", formData);
+      const response = await instance.post(apiEndPoints.increment, formData);
       if (response.data.success) {
         fetchUserDetails();
       } else {
@@ -58,7 +59,7 @@ const Cart = () => {
       userId,
     };
     if (formData) {
-      const response = await instance.post("/api/user/decrement", formData);
+      const response = await instance.post(apiEndPoints.decrement, formData);
       if (response.data.success) {
         fetchUserDetails();
       } else {
@@ -76,7 +77,7 @@ const Cart = () => {
       };
       if (productId) {
         const response = await instance.post(
-          "/api/user/deletecartdata",
+          apiEndPoints.deleteCartProduct,
           formData
         );
 
@@ -129,7 +130,7 @@ const Cart = () => {
                     <div class="w-20">
                       <img
                         class="h-24"
-                        src={`http://localhost:5000/upload/${list?.image}`}
+                        src={`https://herbalproject.online/upload/${list?.image}`}
                         alt=""
                       />
                     </div>

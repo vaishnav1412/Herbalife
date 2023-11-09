@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { HiShoppingCart } from "react-icons/hi";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
+import { apiEndPoints } from "../../util/api";
 
 const Shops = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Shops = () => {
   const getData = async () => {
     try {
       dispatch(showLoading());
-      const response = await instance.post("/api/user/userfetchproducts");
+      const response = await instance.post(apiEndPoints.userfetchProducts);
       dispatch(hideLoading());
       if (response.data.success) {
         setProducts(response.data.data);
@@ -65,7 +66,7 @@ const Shops = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await instance.post("/api/user/profiledetails");
+      const response = await instance.post(apiEndPoints.userProfileDetails);
       setUser(response.data.data);
     } catch (error) {
       console.error("Error fetching user details", error);
@@ -79,7 +80,7 @@ const Shops = () => {
       };
 
       if (formData) {
-        const response = await instance.post("/api/user/pricesort", formData);
+        const response = await instance.post(apiEndPoints.priceSort, formData);
         if (response.data.success) {
           setProducts(response.data.data);
         } else {
@@ -100,7 +101,7 @@ const Shops = () => {
       };
 
       const response = await instance.post(
-        "/api/user/usercatogoryfetchproducts",
+       apiEndPoints.userCatogoryFetchProducts,
         formData
       );
 
@@ -129,7 +130,7 @@ const Shops = () => {
         };
 
         if (formData) {
-          const response = await instance.post("/api/user/addtocart", formData);
+          const response = await instance.post(apiEndPoints.userAddToCart, formData);
 
           if (response.data.success) {
             toast.success(response.data.message);
@@ -279,7 +280,7 @@ const Shops = () => {
                 detailView(product._id);
               }}
               className="w-full h-48 object-cover rounded-md"
-              src={`http://localhost:5000/upload/${product.image}`}
+              src={`https://herbalproject.online/upload/${product.image}`}
               alt={product.name}
             />
             <div className="p-4">

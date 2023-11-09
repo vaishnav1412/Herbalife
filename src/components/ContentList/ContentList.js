@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import admininstance from "../../Axios/adminAxiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const ListContent = () => {
   const [content, setContent] = useState([]);
   const getData = async () => {
     admininstance
-      .post("/api/admin/contentlist")
+      .post(apiEndPoints.adminContentList)
       .then((response) => {
         if (response.data.data) {
           setContent(response.data.data);
@@ -43,7 +43,7 @@ const ListContent = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           admininstance
-            .post("/api/admin/deletecontent", formData)
+            .post(apiEndPoints.deleteContent, formData)
             .then((response) => {
               if (response.data.success) {
                 toast.success(response.data.message);

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { useDispatch } from "react-redux";
 import instance from "../../Axios/axiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const Bmi = () => {
   const dispatch = useDispatch();
   const [weight, setWeight] = useState(0);
@@ -24,7 +24,7 @@ const Bmi = () => {
       dispatch(showLoading());
 
       instance
-        .post("/api/user/profiledetails")
+        .post(apiEndPoints.userProfileDetails)
         .then((response) => {
           setUser(response.data.data);
           dispatch(hideLoading());
@@ -109,7 +109,7 @@ const Bmi = () => {
       id,
     };
 
-    const response = await instance.post("/api/user/savebmi", formData);
+    const response = await instance.post(apiEndPoints.saveBmi, formData);
 
     if (response.data.success) {
       toast.success(response.data.message);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import admininstance from "../../Axios/adminAxiosConfig";
+import { apiEndPoints } from "../../util/api";
 const Plans = () => {
   const [list, setList] = useState([]);
 
@@ -24,7 +25,7 @@ const Plans = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           admininstance
-            .post("/api/admin/deleteplan", formData)
+            .post(apiEndPoints.deleteplan, formData)
             .then((response) => {
               if (response.data.success) {
                 getData();
@@ -46,7 +47,7 @@ const Plans = () => {
   const getData = async () => {
     try {
       admininstance
-        .post("/api/admin/planlist")
+        .post(apiEndPoints.adminPlanList)
         .then((response) => {
           setList(response.data.data);
         })

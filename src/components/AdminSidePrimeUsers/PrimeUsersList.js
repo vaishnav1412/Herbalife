@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import admininstance from '../../Axios/adminAxiosConfig';
 import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
+import { apiEndPoints } from "../../util/api";
 const PrimeUsersList = () => {
 
     const [ details,setDetails] = useState([])
@@ -9,7 +10,7 @@ const PrimeUsersList = () => {
     const fetchData = async()=>{
         try {
             admininstance
-            .post("/api/admin/primeusersdetails")
+            .post(apiEndPoints.primeUsersDetails)
             .then((response) => {
               if (response.data.success) {
                 setDetails(response.data.data);

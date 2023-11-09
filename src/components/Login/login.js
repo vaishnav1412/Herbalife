@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './login.css'
-import axios from "axios";
+import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -8,7 +8,7 @@ import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
-
+import { apiEndPoints } from "../../util/api";
 const logo =require('../../assets/other/main-logo.png')
 
 
@@ -49,7 +49,7 @@ const Login = () => {
       };
       try {
         dispatch(showLoading())
-        const response = await axios.post("/api/user/login", formData);
+        const response = await instance.post(apiEndPoints.login, formData);
         dispatch(hideLoading())
         if (response.data.success) {
           toast.success(response.data.message);
@@ -73,7 +73,7 @@ const Login = () => {
         name,email
       }
       if(formData){
-        const response = await axios.post("/api/user/googlelogin", formData);
+        const response = await instance.post(apiEndPoints.googleLogin, formData);
 
         if (response.data.success) {
           toast.success(response.data.message);

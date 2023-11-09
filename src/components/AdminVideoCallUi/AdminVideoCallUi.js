@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const AdminVideoCallUi = () => {
     const { roomId } = useParams();
     const videoContainerRef = useRef(null);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import toast from "react-hot-toast";
 import admininstance from "../../Axios/adminAxiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const DashboardLayout = () => {
   const [user, setUser] = useState(0);
   const [primeUser, setPrimeUser] = useState(0);
@@ -13,7 +13,7 @@ const [shopEarning, setShopEarning] = useState(0);
 const [primeEarning, setPrimeEarning] = useState(0);
   const getData = async () => {
     try {
-      admininstance.post("/api/admin/dashboarddetails")
+      admininstance.post(apiEndPoints.dashboardDetails)
       .then((response) => {
         if (response.data.success) {
             setUser(response.data.data1);

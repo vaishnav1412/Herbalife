@@ -4,7 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-
+import { apiEndPoints } from "../../util/api";
 const Otp = () => {
   const navigate = useNavigate();
   const location =useLocation()
@@ -28,7 +28,7 @@ const Otp = () => {
         email
         };
         try {
-          const response = await axios.post("/api/user/otp", formData);
+          const response = await axios.post(apiEndPoints.otp, formData);
 
           if (response.data.success) {
             toast.success(response.data.message);

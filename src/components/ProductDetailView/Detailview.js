@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import instance from "../../Axios/axiosConfig";
 import toast from "react-hot-toast";
+import { apiEndPoints } from "../../util/api";
 
 const Detailview = () => {
   const [product, setProduct] = useState("");
@@ -17,7 +18,7 @@ const Detailview = () => {
       };
       if (productId) {
         const response = await instance.post(
-          "/api/user/fetchproduct",
+         apiEndPoints.userfetchProduct,
           formData
         );
 
@@ -35,7 +36,7 @@ const Detailview = () => {
   };
   const fetchUserDetails = async () => {
     try {
-      const response = await instance.post("/api/user/profiledetails");
+      const response = await instance.post(apiEndPoints.userProfileDetails);
       setUser(response.data.data);
     } catch (error) {
       console.error("Error fetching user details", error);
@@ -56,7 +57,7 @@ const Detailview = () => {
         };
 
         if (formData) {
-          const response = await instance.post("/api/user/addtocarts", formData);
+          const response = await instance.post(apiEndPoints.userAddToCart, formData);
           if (response.data.success) {
             toast.success(response.data.message);
           } else {
@@ -81,7 +82,7 @@ const Detailview = () => {
             <img
               alt="ecommerce"
               class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-              src={`http://localhost:5000/upload/${product[0]?.image}`}
+              src={`https://herbalproject.online/upload/${product[0]?.image}`}
             />
             <div class="lg:w-1/2 w-full lg:pl-10 lg:py-2 mt-2 lg:mt-0">
               <h2 class="text-sm title-font text-gray-500 tracking-widest">

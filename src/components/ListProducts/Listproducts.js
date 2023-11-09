@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import admininstance from "../../Axios/adminAxiosConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { apiEndPoints } from "../../util/api";
 const Listproducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -11,7 +11,7 @@ const Listproducts = () => {
   const getData = async () => {
     try {
       admininstance
-        .post("/api/admin/fetchproducts")
+        .post(apiEndPoints.AdminListProduct)
         .then((response) => {
           if (response.data.success) {
             setProducts(response.data.data);
@@ -29,7 +29,6 @@ const Listproducts = () => {
   useEffect(() => {
     getData();
   }, []);
-
   const handleBlock = async (id, status) => {
     try {
       const formData = {
@@ -49,7 +48,7 @@ const Listproducts = () => {
         }).then(async (result) => {
           if (result.isConfirmed) {
             admininstance
-              .post("/api/admin/blockproducts", formData)
+              .post(apiEndPoints.blockPoducts, formData)
               .then((response) => {
                 if (response.data.success) {
                   getData();
@@ -77,7 +76,7 @@ const Listproducts = () => {
         }).then(async (result) => {
           if (result.isConfirmed) {
             admininstance
-              .post("/api/admin/unblockproducts", formData)
+              .post(apiEndPoints.unBlockProduct, formData)
               .then((response) => {
                 if (response.data.success) {
                   getData();
@@ -99,8 +98,6 @@ const Listproducts = () => {
   const handleEditProduct = async (id) => {
     navigate("/dashboard/editproducts", { state: { id } });
   };
-   
-  
   return (
     <div className="w-full">
       <div className="p-5 h-full bg-gray-200">
@@ -157,7 +154,6 @@ const Listproducts = () => {
                   <td className="p-3 text-sm text-gray-700">
                     {items?.catogory === "1" ? "Gain" : "Lose"}
                   </td>
-
                   <td className="p-3 text-sm text-gray-700">
                     {items?.quantity}
                   </td>
@@ -168,7 +164,7 @@ const Listproducts = () => {
                   <td className="p-3 text-sm text-gray-700">
                     {" "}
                     <img
-                      src={`http://localhost:5000/upload/${items?.image}`}
+                      src={`https://herbalproject.online/upload/${items?.image}`}
                       alt={`Banner ${index + 1}`}
                       className="max-w-full h-10 w-10"
                     />
@@ -202,7 +198,6 @@ const Listproducts = () => {
           </tbody>
         </table>
       </div>
-     
     </div>
   );
 };

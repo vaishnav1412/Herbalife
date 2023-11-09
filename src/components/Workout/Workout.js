@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { useDispatch } from 'react-redux';
 import instance from '../../Axios/axiosConfig';
+import { apiEndPoints } from "../../util/api";
 
 const Workout = () => {
   const dispatch = useDispatch()
@@ -11,7 +12,7 @@ const [video,setVideo] = useState('https://www.youtube.com/embed/ly36kn0ug4k')
 
   const getData =async () =>{
     dispatch(showLoading())
-    instance.post("/api/user/videolist")
+    instance.post(apiEndPoints.workouts)
     .then((response) => {
       dispatch(hideLoading())
       if (response.data.success) {

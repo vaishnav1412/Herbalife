@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
 import toast from "react-hot-toast";
 import instance from '../../Axios/axiosConfig';
+import { apiEndPoints } from "../../util/api";
 
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ const Weightlose = () => {
    
     const fetchgain =async() =>{
       dispatch(showLoading())
-      instance.post("/api/user/fetchlose")
+      instance.post(apiEndPoints.fetchLose)
       .then((response) => {
         dispatch(hideLoading())
         if (response.data.success) {

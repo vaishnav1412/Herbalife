@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../Axios/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
-
+import { apiEndPoints } from "../../util/api";
 const Editprofile = () => {
 const navigate = useNavigate()
 const [user,setUser] = useState('')
@@ -17,7 +17,7 @@ useEffect(() => {
 
 
       instance.post(
-        "/api/user/profiledetails",
+        apiEndPoints.userProfileDetails,
         {},
         {
           headers: {
@@ -68,7 +68,7 @@ const handleSubmit =async (event) =>{
         try {
 
 
-          instance.post("/api/user/userprofileeditdata", formData)
+          instance.post(apiEndPoints.userProfileEditData, formData)
           .then((response) => {
            
             if (response.data.success) {

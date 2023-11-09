@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import toast from "react-hot-toast";
-import axios from "axios";
+
 import Swal from 'sweetalert2';
 import admininstance from "../../Axios/adminAxiosConfig";
-
+import { apiEndPoints } from "../../util/api";
 const ListWorkouts = () => {
 
     
   const [video,setvideo] = useState([])
   const getData = async ()=>{
-    admininstance.post("/api/admin/videolist")
+    admininstance.post(apiEndPoints.adminVideoList)
     .then((response) => {
       if(response.data.data){
         setvideo(response.data.data) 
@@ -51,7 +51,7 @@ const ListWorkouts = () => {
 
         
 
-        admininstance.post("/api/admin/deletevideo",formData)
+        admininstance.post(apiEndPoints.deleteVideo,formData)
         .then((response) => {
           
           if(response.data.success){

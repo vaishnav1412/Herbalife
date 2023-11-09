@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import admininstance from "../../Axios/adminAxiosConfig";
+import { apiEndPoints } from "../../util/api";
 const AdminSideOrders = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
@@ -13,7 +14,7 @@ const AdminSideOrders = () => {
   const getData = async (req, res) => {
     try {
       admininstance
-        .post("/api/admin/displayorders")
+        .post(apiEndPoints.displayOrders)
         .then((response) => {
           if (response.data.success) {
             setOrder(response.data.data);
@@ -44,7 +45,7 @@ const AdminSideOrders = () => {
         id,
       };
       admininstance
-        .post("/api/admin/changestatus", formData)
+        .post(apiEndPoints.changeStatus, formData)
         .then((response) => {
           if (response.data.success) {
             getData();

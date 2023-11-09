@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import UserProtected from './UserProtected';
 import UserPublic from './UserPublic';
 import Login from './pages/Login';
+import ErrorPage from './pages/ErrorPage';
 import PublicRoutes from './protect/publicRoutes';
 import { ColorRing } from  'react-loader-spinner'
 import { useSelector } from 'react-redux';
@@ -41,6 +42,7 @@ function App() {
           <Route path='/public*' element={<UserPublic/>}/>
           <Route path ='/admin' element={<Adminpublic><AdminLogin/></Adminpublic>}/>
           <Route path ='/dashboard*' element={<AdminProtected><Dashboard/></AdminProtected>}/>
+          <Route path='*' element={<ErrorPage/>}/>
      </Routes>
      </BrowserRouter>
     </div>

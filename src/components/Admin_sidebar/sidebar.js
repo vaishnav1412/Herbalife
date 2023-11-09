@@ -33,7 +33,7 @@ import AddFood from "../../pages/AddFood.js";
 import EditFood from "../../pages/editFood.js";
 import AddContent from "../../pages/AddContent.js";
 import ListContent from "../../components/ContentList/ContentList.js";
-import AdminChat from "../../pages/AdminChat.js";
+
 import DashboardLayouts from "../../pages/DashboardLayouts.js";
 import Orders from "../../pages/Orders.js";
 import OrderedProducts from "../../pages/OrderedProducts.js";
@@ -42,7 +42,7 @@ import AdminVideoCall from "../../pages/AdminVideoCall.js";
 import AdminProtected from "../../protect/adminProtected.js";
 import AdminSidePrimeUsers from "../../pages/AdminSidePrimeUsers.js";
 import AdminSideSingleUserPurchase from "../../pages/AdminSideSingleUserPurchase.js";
-
+import { apiEndPoints } from "../../util/api";
 const AdminSideSingleUserPurchaseContainer = ({ props }) => {
   return <AdminSideSingleUserPurchase{...props} />;
 }
@@ -69,9 +69,7 @@ const OrderContainer = ({ props }) => {
   return <Orders {...props} />;
 };
 
-const AdminChatContainer = ({ props }) => {
-  return <AdminChat {...props} />;
-};
+
 
 const ListContentContainer = ({ props }) => {
   return <ListContent {...props} />;
@@ -235,7 +233,7 @@ const Sidebar = () => {
           <Route path="/editfood" element={ <AdminProtected><EditFoodContainer /> </AdminProtected>} />
           <Route path="/addcontent" element={ <AdminProtected><AddContentContainer /> </AdminProtected>} />
           <Route path="/content" element={ <AdminProtected><ListContentContainer /> </AdminProtected>} />
-          <Route path="/adminchat*" element={ <AdminProtected><AdminChatContainer /> </AdminProtected>} />
+         
           <Route path="/" element={ <AdminProtected><DashboardLayouts /> </AdminProtected>} />
           <Route path="/ordes" element={ <AdminProtected><OrderContainer/> </AdminProtected>}/>
           <Route path="/orderdproduct/:id" element={ <AdminProtected><OrderedProductContainer/> </AdminProtected>}/>

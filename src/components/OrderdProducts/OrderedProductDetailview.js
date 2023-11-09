@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-
+import { apiEndPoints } from "../../util/api";
 import admininstance from "../../Axios/adminAxiosConfig";
 
 const OrderedProductDetailview = () => {
@@ -14,7 +14,7 @@ const OrderedProductDetailview = () => {
         id,
       };
       admininstance
-        .post("/api/admin/fetchsingleorder", formData)
+        .post(apiEndPoints.fetchSingleOrder, formData)
         .then((response) => {
           if (response.data.success) {
             setProducts(response.data.data[0].products);
@@ -46,8 +46,8 @@ const OrderedProductDetailview = () => {
             <li key={index} className="grid grid-cols-6 gap-2 border-b-1">
               <div className="col-span-1 self-center">
                 <img
-                  src={`http://localhost:5000/upload/${product?.image}`}
-                  alt={product?.name} // Set the alt text
+                  src={`https://herbalproject.online/upload/${product?.image}`}
+                  alt={product?.name} 
                   className="rounded w-14 h-14"
                 />
               </div>

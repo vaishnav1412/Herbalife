@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./adminlogin.css";
-import axios from "axios";
+import { apiEndPoints } from "../../util/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import admininstance from "../../Axios/adminAxiosConfig";
 
 const logo = require("../../assets/other/main-logo.png");
 
@@ -45,12 +46,12 @@ const Adminlogin = () => {
       };
 
       try {
-        const response = await axios.post("/api/admin/login", formData);
+        const response = await admininstance.post(apiEndPoints.adminLogin, formData);
         if (response.data.success) {
           toast.success(response.data.message);
           toast("Rediarected to home page");
           localStorage.setItem("admin_token", response.data.data);
-          navigate("/dashboard", { state: { email } }); // Pass the email as state
+          navigate("/dashboard", { state: { email } }); 
         } else {
           toast.error(response.data.message);
           setLoginFailed(true);

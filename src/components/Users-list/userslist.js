@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import admininstance from "../../Axios/adminAxiosConfig";
+import { apiEndPoints } from "../../util/api";
 
 const Users = () => {
   const [user, setuser] = useState([]);
 
   const getData = async (req, res) => {
     admininstance
-      .post("/api/admin/userlist")
+      .post(apiEndPoints.userlists)
       .then((response) => {
         setuser(response.data.data);
       })
@@ -39,7 +40,7 @@ const Users = () => {
         }).then(async (result) => {
           if (result.isConfirmed) {
             admininstance
-              .post("/api/admin/blockuser", formData)
+              .post(apiEndPoints.blockuser, formData)
               .then((response) => {
                 if (response.data.success) {
                   getData();
@@ -67,7 +68,7 @@ const Users = () => {
         }).then(async (result) => {
           if (result.isConfirmed) {
             admininstance
-              .post("/api/admin/unblockuser", formData)
+              .post(apiEndPoints.unBlockUser, formData)
               .then((response) => {
                 if (response.data.success) {
                   getData();

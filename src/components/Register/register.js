@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
+import { apiEndPoints } from "../../util/api";
 const logo = require("../../assets/other/main-logo.png");
 
 const Register = () => {
@@ -79,7 +80,7 @@ const Register = () => {
       };
       try {
         dispatch(showLoading())
-        const response = await axios.post("/api/user/register", formData);
+        const response = await axios.post(apiEndPoints.register, formData);
         dispatch(hideLoading())
         if (response.data.success) {
           toast.success(response.data.message);

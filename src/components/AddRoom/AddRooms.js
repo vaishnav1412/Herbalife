@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import admininstance from "../../Axios/adminAxiosConfig";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { apiEndPoints } from "../../util/api";
 import { useNavigate } from "react-router-dom";
 
 const AddRooms = () => {
@@ -22,7 +22,7 @@ const AddRooms = () => {
     };
 
     admininstance
-    .post("/api/admin/roomcheck", formData)
+    .post(apiEndPoints.roomCheck, formData)
     .then((response) => {
       if (response.data.success) {
         navigate(`/dashboard/adminvideocall/${roomId}`);
@@ -54,7 +54,7 @@ const AddRooms = () => {
       if (formData) {
 
         admininstance
-        .post("/api/admin/addroomid", formData)
+        .post(apiEndPoints.addRoom, formData)
         .then((response) => {
           if (response.data.success) {
             getData();
@@ -90,7 +90,7 @@ const AddRooms = () => {
       if (result.isConfirmed) {
         try {
           admininstance
-            .post("/api/admin/deleteroom")
+            .post(apiEndPoints.deleteRoom)
             .then((response) => {
               if (response.data.success) {
                 setData("");
@@ -113,7 +113,7 @@ const AddRooms = () => {
   const getData = async () => {
     try {
       admininstance
-      .post("/api/admin/findroomid")
+      .post(apiEndPoints.findRoomId)
       .then((response) => {
         if (response.data.success) {
           setData(response.data.data);

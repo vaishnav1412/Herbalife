@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import instance from "../../Axios/axiosConfig";
 import { useLocation, useNavigate } from "react-router-dom";
+import { apiEndPoints } from "../../util/api";
 
 import toast from "react-hot-toast";
 
@@ -63,7 +64,7 @@ const Addaddress = () => {
       };
       try {
         instance
-          .post("/api/user/addaddress", formData)
+          .post(apiEndPoints.addAddress, formData)
           .then((response) => {
             if (response.data.success) {
               toast.success(response.data.message);

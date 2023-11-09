@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import instance from '../../Axios/axiosConfig';
 import { hideLoading, showLoading } from '../../redux/alertsSlice';
 import { useDispatch } from 'react-redux';
-
+import { apiEndPoints } from "../../util/api";
 const Banner = () => {
   const [banner, setBanner] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -12,7 +12,7 @@ const Banner = () => {
   const getData = async () => {
     try {
       dispatch(showLoading())
-      const response = await instance.post('/api/user/bannerlist');
+      const response = await instance.post(apiEndPoints.bannerList);
       dispatch(hideLoading())
       if (response.data.data) {
         setBanner(response.data.data);
@@ -64,7 +64,7 @@ const Banner = () => {
             data-carousel-item
           >
             <img
-              src={`http://localhost:5000/upload/${image.image}`}
+              src={`https://herbalproject.online/upload/${image.image}`}
               className='absolute block w-full h-full top-0 left-0 transform scale-100 transition-transform duration-700 ease-in-out'
               alt={`Car ${index + 1}`}
             />

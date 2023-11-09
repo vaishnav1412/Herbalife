@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import admininstance from "../../Axios/adminAxiosConfig";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const Editproducts = () => {
   const location = useLocation();
   const id = location.state?.id;
@@ -26,7 +26,7 @@ const Editproducts = () => {
     try {
       if (id) {
         admininstance
-          .post("/api/admin/fetchproduct", formData)
+          .post(apiEndPoints.adminFetchProducts, formData)
           .then((response) => {
             if (response.data.success) {
               setProduct(response.data.data);
@@ -90,7 +90,7 @@ const Editproducts = () => {
         };
         try {
           admininstance
-            .post("/api/admin/editproducts", formData)
+            .post(apiEndPoints.editProducts, formData)
             .then((response) => {
               if (response.data.success) {
                 toast.success(response.data.message);
@@ -119,7 +119,7 @@ const Editproducts = () => {
         };
         try {
           admininstance
-            .post("/api/admin/editproductswithimage", formData, {
+            .post(apiEndPoints.editProductWithImage, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },

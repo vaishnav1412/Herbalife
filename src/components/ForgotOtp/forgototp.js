@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import './forgototp.css'
-
+import { apiEndPoints } from "../../util/api";
 import React, { useState } from 'react'
 
 const Forgototp = () => {
@@ -30,7 +30,7 @@ const Forgototp = () => {
             };
 
             try {
-              const response = await axios.post("/api/user/forgototp", formData);
+              const response = await axios.post(apiEndPoints.forgotOtp, formData);
 
               if (response.data.success) {
                 toast('Rediarected to password reset page')

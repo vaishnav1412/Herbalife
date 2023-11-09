@@ -20,7 +20,7 @@ import Checkouts from './pages/Checkouts';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import AddChekoutAddresss from './pages/AddChekoutAddress';
 import EditCheckoutAddresss from './pages/EditCheckoutAddress';
-import UserChat from './pages/UserChat';
+
 import AdminProfileUserSide from './pages/AdminProfileUserSide';
 import OrderHistory from './pages/OrderHistory'
 import VideoCall from './pages/VideoCall';
@@ -52,7 +52,6 @@ const UserProtected = () => {
            <Route path='/sucess' element ={<ProtectedRoute><OrderSuccessPage/></ProtectedRoute>}/>
            <Route path='/addcheckoutaddress' element ={<ProtectedRoute><AddChekoutAddresss/></ProtectedRoute>}/>
            <Route path='/checkouteditaddress' element ={<ProtectedRoute><EditCheckoutAddresss/></ProtectedRoute>}/>
-           <Route path='/chat' element ={<ProtectedRoute><UserChat/></ProtectedRoute>}/>
            <Route path='/appoinment' element ={<ProtectedRoute><AdminProfileUserSide/></ProtectedRoute>}/>
            <Route path='/orderhistory' element ={<ProtectedRoute><OrderHistory/></ProtectedRoute>}/>
            <Route path='/subscriptionhistory' element ={<ProtectedRoute><SuscribeHistory/></ProtectedRoute>}/>

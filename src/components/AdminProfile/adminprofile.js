@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import admininstance from "../../Axios/adminAxiosConfig";
 import { useNavigate } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const Adminprofile = () => {
   const [image, setImage] = useState("");
   const [admin, setAdmin] = useState("");
@@ -15,7 +15,7 @@ const Adminprofile = () => {
       formData.append("admin", admin._id);
       try {
         admininstance
-          .post("/api/admin/uploadImage", formData, {
+          .post(apiEndPoints.uploadImage, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -47,7 +47,7 @@ const Adminprofile = () => {
   const fetchUserDetails = async () => {
     try {
       admininstance.post(
-        "/api/Admin/profiledetails",
+       apiEndPoints.profileDetails,
         {},
         {
           headers: {
@@ -79,9 +79,7 @@ const Adminprofile = () => {
     navigate("/dashboard/editadminprofile", { state: { id } });
   };
 
-  const GoToChat = () => {
-    navigate("/dashboard/adminchat");
-  };
+  
 
   const navigateRoomCreate = () => {
     navigate("/dashboard/createroom");
@@ -96,7 +94,7 @@ const Adminprofile = () => {
               <div className="flex  space-x-2">
                 <div className="mt-6 lg:mt-0 p-6 bg-white rounded-lg shadow-lg mb-4 p flex flex-col w-1/2">
                   <div className="w-40 h-40 bg-slate-400 rounded-full shadow-slate-700 mb-4 overflow-hidden">
-                    <img src={`http://localhost:5000/upload/${admin.image}`} />
+                    <img src={`https://herbalproject.online/upload/${admin.image}`} />
                   </div>
                   <div>
                     <input
@@ -160,28 +158,7 @@ const Adminprofile = () => {
                       </svg>
                       Video Call
                     </button>
-                    <button
-                      class="w-full px-4 py-2 bg-teal-600 rounded-lg text-white"
-                      onClick={() => {
-                        GoToChat();
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                        />
-                      </svg>
-                      Chat
-                    </button>
+                   
                   </div>
                 </div>
               </div>

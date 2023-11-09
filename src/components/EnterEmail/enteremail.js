@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import { apiEndPoints } from "../../util/api";
 const Enteremail = () => {
   const navigate =useNavigate()
   const [email,setEmail] = useState('')
@@ -26,7 +26,7 @@ const Enteremail = () => {
       };
 
       try {
-        const response = await axios.post("/api/user/conformemail", formData);
+        const response = await axios.post(apiEndPoints.confirmEmail, formData);
         if (response.data.success) {
           toast('Rediarected to otp page')
           navigate("/public/forgototp", { state: { email } }); 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import admininstance from "../../Axios/adminAxiosConfig";
+import { apiEndPoints } from "../../util/api";
 function Graph1() {
   const [chartData, setChartData] = useState({
     series: [0, 0], 
@@ -17,7 +18,7 @@ function Graph1() {
     
     async function fetchData() {
       try {
-        const response = await admininstance.post('/api/admin/userlist'); 
+        const response = await admininstance.post(apiEndPoints.userlist); 
         const data = await response.data.data
         const normalUsersCount = data.filter((user) => user.isPrime === 0).length;
         const primeUsersCount = data.filter((user) => user.isPrime === 1).length;
